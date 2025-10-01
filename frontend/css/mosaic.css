@@ -1,0 +1,161 @@
+/* Slide Mosaico 2x2 - Design Premium alinhado com Fullscreen */
+.mosaic-slide {
+    padding: 12px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Quando ativo, garantir visibilidade total */
+.mosaic-slide.active {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 10 !important;
+    pointer-events: all !important;
+}
+
+.mosaic-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: 1fr 1fr !important;
+    gap: 8px;
+    width: 100%;
+    height: 100%;
+}
+
+/* Item do Mosaico - Container transparente SEM padding extra */
+.mosaic-item {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: relative !important;
+    overflow: visible !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+}
+
+/* Imagem do Mosaico - Moldura EXATAMENTE IGUAL ao Fullscreen */
+.mosaic-image {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    
+    /* Frame com accent color - EXATAMENTE IGUAL AO FULLSCREEN */
+    border: var(--border-width) solid var(--border-primary) !important;
+    border-radius: var(--border-radius-lg);
+    
+    /* Background branco com sutil toque da brand color - EXATAMENTE IGUAL AO FULLSCREEN */
+    background: linear-gradient(135deg, #ffffff 0%, #fff5f0 100%) !important;
+    padding: 8px;
+    
+    /* Sombras múltiplas para profundidade - IGUAL AO FULLSCREEN */
+    box-shadow: 
+        /* Sombra principal */
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        /* Glow da brand color */
+        0 0 40px rgba(235, 101, 8, 0.2),
+        /* Borda interna sutil */
+        inset 0 0 0 1px rgba(235, 101, 8, 0.1),
+        /* Highlight sutil no topo */
+        inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    
+    /* Transição suave */
+    transition: all var(--transition-smooth);
+    
+    /* Melhora de qualidade de renderização */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    z-index: 1 !important;
+    position: relative !important;
+}
+
+/* Hover effect - Premium como o Fullscreen */
+.mosaic-item:hover .mosaic-image {
+    transform: scale(1.01) translateY(-2px);
+    box-shadow: 
+        0 24px 70px rgba(0, 0, 0, 0.7),
+        0 0 60px rgba(235, 101, 8, 0.3),
+        inset 0 0 0 1px rgba(235, 101, 8, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+/* Items vazios */
+.mosaic-item.empty {
+    display: none !important;
+}
+
+/* Layouts para diferentes quantidades de imagens */
+.mosaic-grid.single .mosaic-item {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+}
+
+.mosaic-grid.two-items .mosaic-item {
+    grid-row: 1 / -1;
+}
+
+.mosaic-grid.three-items .mosaic-item:first-child {
+    grid-column: 1 / -1;
+}
+
+/* Responsividade - Mantém moldura igual ao Fullscreen */
+@media (max-width: 1280px) {
+    .mosaic-slide {
+        padding: 10px;
+    }
+    
+    .mosaic-grid {
+        gap: 6px;
+    }
+    
+    .mosaic-item {
+        padding: 0;
+    }
+    
+    .mosaic-image {
+        padding: 6px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mosaic-slide {
+        padding: 8px;
+    }
+    
+    .mosaic-grid {
+        gap: 5px;
+    }
+    
+    .mosaic-item {
+        padding: 0;
+    }
+    
+    .mosaic-image {
+        padding: 6px;
+    }
+    
+    /* Remover hover em mobile */
+    .mosaic-item:hover .mosaic-image {
+        transform: none;
+        box-shadow: 
+            0 20px 60px rgba(0, 0, 0, 0.6),
+            0 0 40px rgba(235, 101, 8, 0.2),
+            inset 0 0 0 1px rgba(235, 101, 8, 0.1),
+            inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    }
+}

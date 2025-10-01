@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Imagens - GAV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #2a2a2a;
+            border-radius: 8px;
+        }
+        img {
+            max-width: 200px;
+            margin: 10px;
+            border: 2px solid #00ff00;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Teste de Carregamento de Imagens</h1>
+    
+    <div class="test-section">
+        <h2>Playlist JSON</h2>
+        <pre id="playlistData">Carregando...</pre>
+    </div>
+    
+    <div class="test-section">
+        <h2>Imagens do Mosaico</h2>
+        <div id="mosaicImages">Carregando...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Console de Testes</h2>
+        <div id="console"></div>
+    </div>
+
+    <script>
+        const consoleEl = document.getElementById('console');
+        
+        function log(message, type = 'info') {
+            const color = type === 'error' ? 'red' : type === 'success' ? '#00ff00' : 'white';
+            consoleEl.innerHTML += `<div style="color: ${color}; margin: 5px 0;">${message}</div>`;
+            console.log(message);
+        }
+
+        async function testPlaylist() {
+            try {
+                log('Carregando playlist.json...', 'info');
+                const response = await fetch('./playlist.json?t=' + Date.now());
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const playlist = await response.json();
+                document.getElementById('playlistData').textContent = JSON.stringify(playlist, null, 2);
+                
+                log(`✅ Playlist carregada: ${playlist.totalItems} itens`, 'success');
+                
+                // Buscar mosaicos
+                const mosaicos = playlist.items.filter(item => item.type === 'mosaic');
+                log(`✅ Encontrados ${mosaicos.length} mosaicos`, 'success');
+                
+                if (mosaicos.length > 0) {
+                    const mosaico = mosaicos[0];
+                    log(`✅ Mosaico tem ${mosaico.images.length} imagens`, 'success');
+                    
+                    const container = document.getElementById('mosaicImages');
+                    container.innerHTML = '';
+                    
+                    for (const img of mosaico.images) {
+                        log(`Testando: ${img.url}`, 'info');
+                        
+                        const imgEl = document.createElement('img');
+                        imgEl.src = img.url;
+                        imgEl.alt = img.name;
+                        
+                        imgEl.onload = () => {
+                            log(`✅ ${img.name} carregada!`, 'success');
+                        };
+                        
+                        imgEl.onerror = () => {
+                            log(`❌ ERRO: ${img.name} - URL: ${img.url}`, 'error');
+                        };
+                        
+                        container.appendChild(imgEl);
+                        
+                        const label = document.createElement('div');
+                        label.textContent = img.name;
+                        label.style.margin = '10px';
+                        container.appendChild(label);
+                    }
+                }
+                
+            } catch (error) {
+                log(`❌ ERRO: ${error.message}`, 'error');
+                document.getElementById('playlistData').textContent = error.message;
+            }
+        }
+
+        // Executar teste
+        testPlaylist();
+    </script>
+</body>
+</html>
+

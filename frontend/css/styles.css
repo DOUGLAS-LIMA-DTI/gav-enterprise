@@ -1,0 +1,210 @@
+/* Reset e Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* As variáveis principais agora vem do theme.css */
+/* Mantemos aqui apenas configurações de bordas legadas para compatibilidade */
+:root {
+    /* Compatibilidade com config antiga (será sobrescrita se theme.css estiver presente) */
+    --border-color: var(--border-primary, #EB6508);
+    --border-radius: var(--border-radius-md, 12px);
+}
+
+body {
+    font-family: var(--font-family-primary);
+    /* Imagem de fundo estática */
+    background: 
+        url('/fundo_carrossel.png') center center / cover no-repeat fixed,
+        var(--bg-primary);
+    color: var(--text-primary);
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
+    /* Anti-aliasing para melhor qualidade visual */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Container Principal - Maximizado com design moderno */
+.carousel-container {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    overflow: hidden;
+    /* Fundo transparente para mostrar a imagem do body */
+    background: transparent;
+}
+
+/* Slides Base - Transições aprimoradas */
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 600ms ease-in-out;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 10 !important;
+    display: flex !important;
+}
+
+/* Garantir que primeiro slide seja visível */
+.fullscreen-slide:first-child {
+    display: flex !important;
+}
+
+/* Estado de saída do slide */
+.slide.leaving {
+    z-index: var(--z-base);
+    opacity: 0;
+    transform: scale(0.98);
+    filter: blur(2px);
+}
+
+/* Loading Indicator - Design moderno */
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: var(--z-overlay);
+    padding: var(--spacing-xl);
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--blur-lg));
+    border: 1px solid var(--border-secondary);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-xl), var(--shadow-brand);
+}
+
+.loading.hidden {
+    display: none;
+}
+
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.08);
+    border-top-color: var(--brand-primary);
+    border-right-color: var(--brand-primary-light);
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    animation: spinWithGlow 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    margin: 0 auto var(--spacing-lg);
+    filter: drop-shadow(0 0 10px rgba(235, 101, 8, 0.4));
+}
+
+@keyframes spinWithGlow {
+    0% {
+        transform: rotate(0deg);
+        filter: drop-shadow(0 0 10px rgba(235, 101, 8, 0.4));
+    }
+    50% {
+        filter: drop-shadow(0 0 20px rgba(235, 101, 8, 0.6));
+    }
+    100% {
+        transform: rotate(360deg);
+        filter: drop-shadow(0 0 10px rgba(235, 101, 8, 0.4));
+    }
+}
+
+.loading p {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Error Message - Design moderno */
+.error-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(30, 20, 20, 0.95);
+    backdrop-filter: blur(var(--blur-lg));
+    border: 2px solid rgba(255, 80, 80, 0.5);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl) var(--spacing-2xl);
+    text-align: center;
+    display: none;
+    z-index: var(--z-overlay);
+    box-shadow: 
+        var(--shadow-xl),
+        0 0 40px rgba(255, 80, 80, 0.2);
+    animation: errorPulse 2s ease-in-out infinite;
+}
+
+.error-message.show {
+    display: block;
+}
+
+.error-message p {
+    font-size: var(--font-size-xl);
+    color: #ff8888;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+@keyframes errorPulse {
+    0%, 100% {
+        border-color: rgba(255, 80, 80, 0.5);
+        box-shadow: 
+            var(--shadow-xl),
+            0 0 40px rgba(255, 80, 80, 0.2);
+    }
+    50% {
+        border-color: rgba(255, 80, 80, 0.7);
+        box-shadow: 
+            var(--shadow-xl),
+            0 0 50px rgba(255, 80, 80, 0.4);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 1280px) {
+    .carousel-container {
+        height: calc(100vh - var(--header-height));
+    }
+    
+    .spinner {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-container {
+        height: calc(100vh - var(--header-height));
+    }
+    
+    .loading {
+        padding: var(--spacing-lg);
+        border-radius: var(--border-radius-lg);
+    }
+    
+    .spinner {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .error-message {
+        padding: var(--spacing-lg) var(--spacing-xl);
+        max-width: 90vw;
+    }
+}

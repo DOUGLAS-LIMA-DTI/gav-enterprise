@@ -1,0 +1,80 @@
+/* Configurações de Bordas das Imagens - Integrado com Theme */
+
+/* Este arquivo agora complementa os estilos de theme.css */
+/* Os estilos principais de bordas estão em carousel.css e mosaic.css */
+
+/* Borda com efeito de brilho brand color ao carregar */
+@keyframes brandBorderGlow {
+    0%, 100% {
+        border-color: var(--border-primary);
+        box-shadow: 
+            0 10px 40px rgba(0, 0, 0, 0.5),
+            0 0 20px rgba(235, 101, 8, 0.2),
+            inset 0 0 0 1px rgba(235, 101, 8, 0.08);
+    }
+    50% {
+        border-color: var(--brand-primary-light);
+        box-shadow: 
+            0 10px 40px rgba(0, 0, 0, 0.5),
+            0 0 40px rgba(235, 101, 8, 0.4),
+            inset 0 0 0 1px rgba(235, 101, 8, 0.15);
+    }
+}
+
+.carousel-image.loading,
+.mosaic-image.loading {
+    animation: brandBorderGlow 2s ease-in-out infinite;
+}
+
+/* Configuração de bordas herdada do tema */
+/* A largura das bordas agora é controlada por --border-width no theme.css */
+
+/* Estados de carregamento com brand color */
+.carousel-image[src=""],
+.mosaic-image[src=""] {
+    background: 
+        linear-gradient(135deg, rgba(235, 101, 8, 0.1) 25%, transparent 25%),
+        linear-gradient(225deg, rgba(235, 101, 8, 0.1) 25%, transparent 25%),
+        linear-gradient(45deg, rgba(235, 101, 8, 0.1) 25%, transparent 25%),
+        linear-gradient(315deg, rgba(235, 101, 8, 0.1) 25%, rgba(235, 101, 8, 0.05) 25%);
+    background-position: 10px 0, 10px 0, 0 0, 0 0;
+    background-size: 20px 20px;
+    background-repeat: repeat;
+    animation: brandStripeMove 1.5s linear infinite;
+}
+
+@keyframes brandStripeMove {
+    to {
+        background-position: 30px 0, 30px 0, 20px 0, 20px 0;
+    }
+}
+
+/* Placeholder visual elegante */
+.carousel-image.placeholder,
+.mosaic-image.placeholder {
+    position: relative;
+    background: linear-gradient(135deg, #fff 0%, #fff5f0 100%);
+}
+
+.carousel-image.placeholder::after,
+.mosaic-image.placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(235, 101, 8, 0.1) 50%,
+        transparent 100%
+    );
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}

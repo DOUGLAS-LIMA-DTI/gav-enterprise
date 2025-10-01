@@ -1,0 +1,111 @@
+# GAV-Enterprise - Git Ignore
+
+# ========================================
+# Diretórios Gerados
+# ========================================
+
+# Imagens sincronizadas (geradas pelo script PowerShell)
+/images/
+!/images/.gitkeep
+
+# Node modules (não usado, mas por segurança)
+node_modules/
+
+# Backend antigo (removido na v3.0)
+backend/
+
+# ========================================
+# Arquivos Gerados
+# ========================================
+
+# Playlist e config (gerados pelo script PowerShell)
+/frontend/playlist.json
+/frontend/config.json
+/frontend/images/last-sync.txt
+
+# Logs
+/logs/*.log
+!/logs/.gitkeep
+
+# Timestamp de sincronização
+last-sync.txt
+
+# ========================================
+# Configuração Local
+# ========================================
+
+# Arquivo de configuração local (contém caminhos específicos)
+.env
+.env.local
+.env.production
+
+# ========================================
+# Sistema Operacional
+# ========================================
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+# ========================================
+# IDEs e Editores
+# ========================================
+
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Cursor
+.cursor/
+
+# JetBrains IDEs
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ========================================
+# Temporários
+# ========================================
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Cache
+.cache/
+*.cache
+
+# ========================================
+# Deployment
+# ========================================
+
+# Build outputs (se houver)
+dist/
+build/
+
+# ========================================
+# Manter Estrutura de Pastas Vazias
+# ========================================
+
+# Estes arquivos .gitkeep devem existir
+!images/.gitkeep
+!logs/.gitkeep
+

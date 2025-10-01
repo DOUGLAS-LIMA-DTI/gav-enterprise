@@ -1,0 +1,150 @@
+/* Slide Fullscreen - Design Premium */
+.fullscreen-slide {
+    padding: 12px;
+    position: relative;
+}
+
+.image-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1200px;
+    position: relative;
+}
+
+/* Imagem com design moderno e frame elegante */
+.carousel-image {
+    max-width: 98%;
+    max-height: 98%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    
+    /* Frame com accent color */
+    border: var(--border-width) solid var(--border-primary);
+    border-radius: var(--border-radius-lg);
+    
+    /* Background branco com sutil toque da brand color */
+    background: linear-gradient(135deg, #ffffff 0%, #fff5f0 100%);
+    padding: 8px;
+    
+    /* Sombras múltiplas para profundidade */
+    box-shadow: 
+        /* Sombra principal */
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        /* Glow da brand color */
+        0 0 40px rgba(235, 101, 8, 0.2),
+        /* Borda interna sutil */
+        inset 0 0 0 1px rgba(235, 101, 8, 0.1),
+        /* Highlight sutil no topo */
+        inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    
+    /* Transição suave */
+    transition: all var(--transition-smooth);
+    
+    /* Melhora de qualidade de renderização */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Hover effect (opcional, para interação) */
+.carousel-image:hover {
+    transform: scale(1.01) translateY(-4px);
+    box-shadow: 
+        0 24px 70px rgba(0, 0, 0, 0.7),
+        0 0 60px rgba(235, 101, 8, 0.3),
+        inset 0 0 0 1px rgba(235, 101, 8, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+/* Animação de entrada premium com scale e glow */
+.fullscreen-slide.active .carousel-image {
+    animation: premiumFadeIn var(--carousel-transition-duration) var(--ease-in-out-smooth);
+}
+
+@keyframes premiumFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+        filter: blur(8px) brightness(0.8);
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+    50% {
+        opacity: 0.8;
+        filter: blur(2px) brightness(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0) brightness(1);
+        box-shadow: 
+            0 20px 60px rgba(0, 0, 0, 0.6),
+            0 0 40px rgba(235, 101, 8, 0.2),
+            inset 0 0 0 1px rgba(235, 101, 8, 0.1),
+            inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    }
+}
+
+/* Animação do border glow */
+@keyframes borderGlow {
+    0%, 100% {
+        border-color: var(--border-primary);
+        box-shadow: 0 0 20px rgba(235, 101, 8, 0.3);
+    }
+    50% {
+        border-color: var(--brand-primary-light);
+        box-shadow: 0 0 30px rgba(235, 101, 8, 0.5);
+    }
+}
+
+/* Transição Fade - mais suave */
+.slide.transition-fade {
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Transição Slide - mais suave */
+.slide.transition-slide {
+    transition: 
+        opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide.transition-slide.slide-out {
+    transform: translateX(-100%);
+}
+
+.slide.transition-slide.slide-in {
+    transform: translateX(100%);
+}
+
+.slide.transition-slide.active {
+    transform: translateX(0);
+}
+
+/* Responsividade */
+@media (max-width: 1280px) {
+    .fullscreen-slide {
+        padding: 10px;
+    }
+    
+    .carousel-image {
+        max-width: 98%;
+        max-height: 98%;
+        padding: 6px;
+    }
+}
+
+@media (max-width: 768px) {
+    .fullscreen-slide {
+        padding: 8px;
+    }
+    
+    .carousel-image {
+        max-width: 99%;
+        max-height: 99%;
+        padding: 6px;
+        border-radius: var(--border-radius-md);
+    }
+}

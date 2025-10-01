@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GAV-Hakuna - Gestão À Vista">
+    <title>GAV-Hakuna | Gestão À Vista</title>
+    
+    <!-- Styles com cache-busting - Ordem de importação é importante -->
+    <!-- 1. Theme deve vir primeiro (define as variáveis) -->
+    <link rel="stylesheet" href="./css/theme.css?v=20251001">
+    <!-- 2. Estilos base -->
+    <link rel="stylesheet" href="./css/styles.css?v=20251001">
+    <!-- 3. Componentes específicos -->
+    <link rel="stylesheet" href="./css/header.css?v=20251001">
+    <link rel="stylesheet" href="./css/carousel.css?v=20251001">
+    <link rel="stylesheet" href="./css/mosaic.css?v=20251001">
+    <!-- 4. Configurações de bordas (override quando necessário) -->
+    <link rel="stylesheet" href="./css/borders.css?v=20251001">
+</head>
+<body>
+    <!-- Cabeçalho Fixo -->
+    <header class="app-header">
+        <img src="./assets/logo-hakuna.png" alt="Hakuna Enterprise" class="header-logo" id="headerLogo">
+    </header>
+
+    <!-- Container Principal do Carrossel -->
+    <main class="carousel-container" id="carouselContainer">
+        <!-- Slide Fullscreen -->
+        <div class="slide fullscreen-slide active" id="fullscreenSlide">
+            <div class="image-wrapper">
+                <img src="" alt="Imagem" class="carousel-image">
+            </div>
+        </div>
+
+        <!-- Slide Mosaico 2x2 -->
+        <div class="slide mosaic-slide" id="mosaicSlide">
+            <div class="mosaic-grid">
+                <div class="mosaic-item">
+                    <img src="" alt="Squad 1" class="mosaic-image">
+                </div>
+                <div class="mosaic-item">
+                    <img src="" alt="Squad 2" class="mosaic-image">
+                </div>
+                <div class="mosaic-item">
+                    <img src="" alt="Squad 3" class="mosaic-image">
+                </div>
+                <div class="mosaic-item">
+                    <img src="" alt="Squad 4" class="mosaic-image">
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Carregando...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" id="errorMessage">
+            <p>Erro ao carregar imagens. Tentando reconectar...</p>
+        </div>
+    </main>
+
+    <!-- Scripts com cache-busting -->
+    <script>
+        // Adiciona timestamp para forçar reload de scripts
+        const v = Date.now();
+        const scripts = [
+            './js/playlist-loader.js',
+            './js/header.js',
+            './js/transitions.js',
+            './js/mosaic.js',
+            './js/carousel.js',
+            './js/main.js'
+        ];
+        scripts.forEach(src => {
+            const script = document.createElement('script');
+            script.src = `${src}?v=${v}`;
+            document.body.appendChild(script);
+        });
+    </script>
+</body>
+</html>
