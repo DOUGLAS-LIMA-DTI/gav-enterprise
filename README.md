@@ -15,6 +15,7 @@ GAV-Hakuna é uma plataforma **extremamente simples e leve** para exibir imagens
 - 🔐 **Seguro**: Sincronização via pasta local do OneDrive
 - 🎨 **Visual**: Cabeçalho com logo e bordas elegantes nas imagens
 - 🧠 **Inteligente**: Estrutura dinâmica de pastas
+- 🚀 **Atualização Rápida**: Playlist recarregada automaticamente a cada 30 segundos
 
 ## 🏗️ Arquitetura Simplificada
 
@@ -26,6 +27,7 @@ GAV-Hakuna é uma plataforma **extremamente simples e leve** para exibir imagens
 │  │   - Carrossel Fullscreen      │  │
 │  │   - Mosaico 2x2               │  │
 │  │   - Lê playlist.json local    │  │
+│  │   - Cache-busting automático  │  │
 │  └───────────────────────────────┘  │
 └─────────────────────────────────────┘
                   ↕ Filesystem Local
@@ -47,6 +49,7 @@ GAV-Hakuna é uma plataforma **extremamente simples e leve** para exibir imagens
 2. **Servidor HTTP** serve os arquivos estáticos (Python, IIS, Live Server, etc.)
 3. **JavaScript puro** lê `playlist.json` e exibe o carrossel
 4. **Zero dependências** - sem Node.js, sem npm, sem build!
+5. **Cache-busting** - Imagens sempre atualizadas após sincronização
 
 ## 🚀 Quick Start
 
@@ -64,8 +67,8 @@ GAV-Hakuna é uma plataforma **extremamente simples e leve** para exibir imagens
 
 ```powershell
 # 1. Clone o repositório
-git clone https://github.com/seu-usuario/gav-hakuna.git
-cd gav-hakuna
+git clone https://github.com/DOUGLAS-LIMA-DTI/gav-enterprise.git
+cd gav-enterprise
 
 # 2. Configure as variáveis de ambiente (opcional)
 # Crie um arquivo .env se quiser customizar o caminho do OneDrive
@@ -153,7 +156,18 @@ O carrossel processa as pastas **recursivamente e em ordem alfabética**:
 - **Fullscreen**: 10 segundos por imagem (padrão)
 - **Mosaico 2x2**: 15 segundos por grupo de até 4 imagens
 
-## 🔄 Sincronização
+## 🔄 Sincronização e Cache
+
+### Cache-Busting Automático
+
+O sistema usa **cache-busting** para garantir que as imagens sejam sempre atualizadas:
+
+1. **Cada sincronização** gera um timestamp único
+2. **URLs das imagens** incluem o timestamp: `./images/foto.png?v=1759339310`
+3. **Frontend verifica** a playlist a cada 30 segundos
+4. **Se houver mudanças**, recarrega automaticamente
+
+**Resultado**: Imagens aparecem atualizadas **30 segundos após a sincronização**!
 
 ### Manual
 
@@ -167,7 +181,8 @@ O script:
 1. ✅ Copia imagens do OneDrive para `./images/`
 2. ✅ Gera `playlist.json` com estrutura de exibição
 3. ✅ Gera `config.json` com configurações
-4. ✅ Cria log em `logs/sync.log`
+4. ✅ Adiciona timestamps para cache-busting
+5. ✅ Cria log em `logs/sync.log`
 
 ### Automática (Recomendado)
 
@@ -175,9 +190,9 @@ Configure uma **Tarefa Agendada** no Windows para executar o script a cada 10 mi
 
 ```powershell
 # Criar tarefa agendada (executar como Administrador)
-$action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-ExecutionPolicy Bypass -File `"C:\caminho\gav-hakuna\scripts\sync-onedrive-images.ps1`""
+$action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-ExecutionPolicy Bypass -File `"C:\caminho\gav-enterprise\scripts\sync-onedrive-images.ps1`""
 $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 10) -RepetitionDuration ([TimeSpan]::MaxValue)
-Register-ScheduledTask -TaskName "GAV-Hakuna Sync" -Action $action -Trigger $trigger -Description "Sincroniza imagens do OneDrive"
+Register-ScheduledTask -TaskName "GAV-Enterprise-Sync" -Action $action -Trigger $trigger -Description "Sincroniza imagens a cada 10 minutos"
 ```
 
 ## 🎨 Personalização
@@ -230,6 +245,11 @@ firefox --kiosk http://localhost:8080
 - Confirme que existe `frontend/playlist.json`
 - Verifique os logs: `logs/sync.log`
 - Confirme os formatos de imagem (.jpg, .png, etc.)
+
+### Imagens não atualizam após sincronização
+- **Aguarde 30 segundos** - O frontend verifica atualizações automaticamente
+- Verifique se o script gerou novo timestamp nas URLs
+- Force atualização com Ctrl+Shift+R no navegador
 
 ### Playlist vazia
 - Verifique se há imagens nas pastas do OneDrive
@@ -285,6 +305,7 @@ gav-hakuna/
 - **Frontend**: HTML5 + CSS3 + JavaScript Vanilla (zero dependências)
 - **Sincronização**: PowerShell (cópia de arquivos local)
 - **Servidor**: Qualquer servidor HTTP estático (Python, IIS, etc.)
+- **Cache-busting**: Timestamps automáticos para atualizações instantâneas
 
 **Nota**: Não precisa de Node.js, npm, build ou dependências!
 

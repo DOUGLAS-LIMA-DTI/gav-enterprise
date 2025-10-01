@@ -21,7 +21,7 @@ backend/
 # Playlist e config (gerados pelo script PowerShell)
 /frontend/playlist.json
 /frontend/config.json
-/frontend/images/last-sync.txt
+/frontend/images/
 
 # Logs
 /logs/*.log

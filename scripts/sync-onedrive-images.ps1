@@ -65,6 +65,9 @@ function Generate-Playlist {
     
     Write-Log "Gerando playlist.json..." "INFO"
     
+    # Timestamp para cache-busting (força navegador a recarregar imagens)
+    $script:cacheTimestamp = [int][double]::Parse((Get-Date -UFormat %s))
+    
     $script:playlistItems = @()
     
     # Processar recursivamente todas as pastas
@@ -101,7 +104,7 @@ function Generate-Playlist {
                     foreach ($img in $group) {
                         $relPath = if ($RelativePath) { "$RelativePath/$($img.Name)" } else { $img.Name }
                         $imageObjects += @{
-                            url = "./images/$($relPath -replace '\\', '/')"
+                            url = "./images/$($relPath -replace '\\', '/')?v=$script:cacheTimestamp"
                             name = $img.Name
                             fileId = $relPath -replace '\\', '/'
                         }
@@ -132,7 +135,7 @@ function Generate-Playlist {
                         duration = $script:intervalFullscreen
                         images = @(
                             @{
-                                url = "./images/$($relPath -replace '\\', '/')"
+                                url = "./images/$($relPath -replace '\\', '/')?v=$script:cacheTimestamp"
                                 name = $img.Name
                                 fileId = $relPath -replace '\\', '/'
                             }
@@ -191,7 +194,7 @@ function Generate-Config {
             transition = "fade"
         }
         sync = @{
-            syncInterval = 600000
+            syncInterval = 30000
         }
     }
     
